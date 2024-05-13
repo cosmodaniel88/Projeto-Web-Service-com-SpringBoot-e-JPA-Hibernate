@@ -9,6 +9,7 @@ import java.util.Set;
 import com.cosmo.sistema.entities.enums.StatusDoPedido;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,6 +17,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Pedido implements Serializable {
@@ -34,10 +36,14 @@ public class Pedido implements Serializable {
 	@ManyToOne // muitos para um
 	@JoinColumn(name = "client_id")
 	private Usuario cliente;
-	
+
 	@OneToMany(mappedBy = "id.pedido")
 	private Set<OrdemDeItem> items = new HashSet<>();
-	
+
+	// mapeando unidades para ter o mesmo ID
+	@OneToOne(mappedBy = "pedido", cascade = CascadeType.ALL)
+	private Pagamento pagamento;
+
 	public Pedido() {
 
 	}
@@ -47,7 +53,7 @@ public class Pedido implements Serializable {
 		this.id = id;
 		this.momento = momento;
 		this.cliente = cliente;
-		//vou chamar o set para passar o nosso valor para o status acima.
+		// vou chamar o set para passar o nosso valor para o status acima.
 		setStatus(status);
 	}
 
@@ -55,18 +61,17 @@ public class Pedido implements Serializable {
 		return id;
 	}
 
-	
 	public StatusDoPedido getStatus() {
-		//retorne o enum que possuir o código atribuído lá em cima.
-		
+		// retorne o enum que possuir o código atribuído lá em cima.
+
 		return StatusDoPedido.valueOf(status);
 	}
-	
-	//ele recebe um enum 
+
+	// ele recebe um enum
 	public void setStatus(StatusDoPedido status) {
-		//se esse argumento for diferente de null
+		// se esse argumento for diferente de null
 		if (status != null) {
-			//o nosso status da classe lá em cima, vai receber o código desse enum
+			// o nosso status da classe lá em cima, vai receber o código desse enum
 			this.status = status.getCode();
 		}
 	}
@@ -91,16 +96,23 @@ public class Pedido implements Serializable {
 		this.cliente = cliente;
 	}
 
+	public Pagamento getPagamento() {
+		return pagamento;
+	}
+
+	public void setPagamento(Pagamento pagamento) {
+		this.pagamento = pagamento;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
 	}
 
-	
-	public Set<OrdemDeItem> getItems(){
+	public Set<OrdemDeItem> getItems() {
 		return items;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

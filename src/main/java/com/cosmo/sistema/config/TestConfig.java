@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Profile;
 
 import com.cosmo.sistema.entities.Categoria;
 import com.cosmo.sistema.entities.OrdemDeItem;
+import com.cosmo.sistema.entities.Pagamento;
 import com.cosmo.sistema.entities.Pedido;
 import com.cosmo.sistema.entities.Produto;
 import com.cosmo.sistema.entities.Usuario;
@@ -85,6 +86,11 @@ public class TestConfig implements CommandLineRunner {
 		
 		rdodi.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
 		
+		Pagamento pag1 = new Pagamento(null, Instant.parse("2019-06-20T21:53:07Z"), o1); 
+		
+		o1.setPagamento(pag1);
+		
+		rdp.save(o1);
 	}
 	
 

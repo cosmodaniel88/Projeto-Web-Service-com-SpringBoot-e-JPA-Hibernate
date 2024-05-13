@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import com.cosmo.sistema.entities.pk.OrdemDeItemPk;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -16,9 +17,14 @@ public class OrdemDeItem implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	@EmbeddedId
-	private OrdemDeItemPk id;
+	private OrdemDeItemPk id = new OrdemDeItemPk();
 	private Integer quantidade;
 	private Double preco;
+	
+	
+	public OrdemDeItem() {
+		
+	};
 	
 	public OrdemDeItem(Pedido pedido, Produto produto,Integer quantidade, Double preco) {
 		super();
@@ -27,7 +33,8 @@ public class OrdemDeItem implements Serializable{
 		this.quantidade = quantidade;
 		this.preco = preco;
 	}
-
+	
+	@JsonIgnore
 	public Pedido getPedido() {
 		return id.getPedido();
 	}

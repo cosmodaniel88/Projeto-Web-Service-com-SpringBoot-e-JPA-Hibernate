@@ -9,11 +9,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.cosmo.sistema.entities.Categoria;
+import com.cosmo.sistema.entities.OrdemDeItem;
 import com.cosmo.sistema.entities.Pedido;
 import com.cosmo.sistema.entities.Produto;
 import com.cosmo.sistema.entities.Usuario;
 import com.cosmo.sistema.entities.enums.StatusDoPedido;
 import com.cosmo.sistema.repositorios.RepositorioDeCategoria;
+import com.cosmo.sistema.repositorios.RepositorioDeOrdemDeItem;
 import com.cosmo.sistema.repositorios.RepositorioDePedido;
 import com.cosmo.sistema.repositorios.RepositorioDeProduto;
 import com.cosmo.sistema.repositorios.RepositorioDeUsuario;
@@ -35,6 +37,9 @@ public class TestConfig implements CommandLineRunner {
 
 	@Autowired
 	private RepositorioDeProduto rdpro;
+	
+	@Autowired
+	private RepositorioDeOrdemDeItem rdodi;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -72,6 +77,16 @@ public class TestConfig implements CommandLineRunner {
 		p5.getCategorias().add(cat3);
 	
 		rdpro.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
+		
+		OrdemDeItem oi1 = new OrdemDeItem(o1, p1, 2, p1.getPreco());
+		OrdemDeItem oi2 = new OrdemDeItem(o1, p3, 1, p3.getPreco());
+		OrdemDeItem oi3 = new OrdemDeItem(o2, p3, 2, p3.getPreco());
+		OrdemDeItem oi4 = new OrdemDeItem(o3, p5, 2, p5.getPreco());
+		
+		rdodi.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
+		
 	}
+	
+
 
 }

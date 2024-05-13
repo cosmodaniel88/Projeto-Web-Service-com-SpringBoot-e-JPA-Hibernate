@@ -2,7 +2,9 @@ package com.cosmo.sistema.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import com.cosmo.sistema.entities.enums.StatusDoPedido;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -13,6 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Pedido implements Serializable {
@@ -31,7 +34,10 @@ public class Pedido implements Serializable {
 	@ManyToOne // muitos para um
 	@JoinColumn(name = "client_id")
 	private Usuario cliente;
-
+	
+	@OneToMany(mappedBy = "id.pedido")
+	private Set<OrdemDeItem> items = new HashSet<>();
+	
 	public Pedido() {
 
 	}
@@ -90,6 +96,11 @@ public class Pedido implements Serializable {
 		return Objects.hash(id);
 	}
 
+	
+	public Set<OrdemDeItem> getItems(){
+		return items;
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

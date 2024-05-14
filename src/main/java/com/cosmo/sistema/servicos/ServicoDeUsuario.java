@@ -28,4 +28,8 @@ public class ServicoDeUsuario {
 	public Usuario insert(Usuario obj) {
 		return rdu.save(obj); // essa operação já retorna um objeto por padrão
 	}
+	
+	public void delete(Long id) {
+		rdu.deleteById(id);
+	}
 }

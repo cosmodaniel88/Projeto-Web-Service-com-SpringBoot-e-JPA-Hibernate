@@ -24,4 +24,8 @@ public class ServicoDeUsuario {
 		
 		return obj.get();
 	}
+	
+	public Usuario insert(Usuario obj) {
+		return rdu.save(obj); // essa operação já retorna um objeto por padrão
+	}
 }

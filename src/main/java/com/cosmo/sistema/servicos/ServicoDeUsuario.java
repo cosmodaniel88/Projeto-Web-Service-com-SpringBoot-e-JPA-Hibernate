@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.cosmo.sistema.entities.Usuario;
 import com.cosmo.sistema.repositorios.RepositorioDeUsuario;
+import com.cosmo.sistema.servicos.excecoes.RecursoNaoEncontrado;
 
 @Service //indicando que a classe é componente, pode ser injetada com autowired
 public class ServicoDeUsuario {
@@ -22,7 +23,7 @@ public class ServicoDeUsuario {
 	public Usuario findById(Long id) {
 		Optional<Usuario> obj =  rdu.findById(id);
 		
-		return obj.get();
+		return obj.orElseThrow(() ->  new RecursoNaoEncontrado(id));
 	}
 	
 	public Usuario insert(Usuario obj) {

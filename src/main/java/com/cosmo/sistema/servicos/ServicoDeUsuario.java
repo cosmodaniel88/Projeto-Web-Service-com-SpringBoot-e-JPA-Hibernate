@@ -32,4 +32,18 @@ public class ServicoDeUsuario {
 	public void delete(Long id) {
 		rdu.deleteById(id);
 	}
+	
+	public Usuario update(Long id, Usuario obj) {
+		//o getReference apenas prepara o objeto. 
+		Usuario entidade = rdu.getReferenceById(id);
+		updateDados(entidade, obj);
+		return rdu.save(entidade);
+	}
+
+	private void updateDados(Usuario entidade, Usuario obj) {
+		entidade.setNome(obj.getNome());
+		entidade.setEmail(obj.getEmail());
+		entidade.setTelefone(obj.getTelefone());
+		
+	}
 }

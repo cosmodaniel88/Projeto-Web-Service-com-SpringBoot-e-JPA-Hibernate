@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.cosmo.sistema.servicos.excecoes.ExcecaoBancoDeDados;
 import com.cosmo.sistema.servicos.excecoes.RecursoNaoEncontrado;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,4 +26,13 @@ public class TratamentoDeErroManual {
 		
 	}
 	
+	@ExceptionHandler(ExcecaoBancoDeDados.class)
+	public ResponseEntity<ErroPadrao> excecaoBancoDeDados(ExcecaoBancoDeDados e, HttpServletRequest request){
+		String error = "Exceção do banco de Dados";
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		ErroPadrao ep = new ErroPadrao(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+		return ResponseEntity.status(status).body(ep);
+		
+		
+	}
 }
